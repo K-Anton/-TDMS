@@ -1,11 +1,13 @@
-from datatypes_classes import Int, Char, String, Real, ComplexInt, ComplexReal
-from field_class import Field
+from datatype_check import check_char, check_complex_float, check_complex_int, check_float, check_int, check_string
 
 class Table:
 
-    def __init__(self, key):
+    def __init__(self, key, fields=None):
         self._key = key
-        self._fields = dict()
+        if fields is None:
+            self._fields = dict()
+        else:
+            self._fields = fields
     
     def get_fields(self):
         return self._fields
@@ -15,59 +17,54 @@ class Table:
 
     def add_field(self, field_name, field_type, field_value):
         
-        if field_name in self._fields.keys:
+        if field_name in self._fields.keys():
             raise BaseException(f"Field with name {field_name} already exist.")
 
         if field_type == 'int':
-            value = Int(field_value)
+            value = check_int(field_value)
         elif field_type == 'string':
-        	value = String(field_value)
+        	value = check_string(field_value)
         elif field_type == 'char':
-            value = Char(field_value)
+            value = check_char(field_value)
         elif field_type == 'real':
-            value = Real(field_value)
+            value = check_float(field_value)
         elif field_type == 'complexInt':   
-        	value = ComplexInt(field_value)
+        	value = check_complex_int(field_value)
         elif field_type == 'complexReal':
-        	value = ComplexReal(field_value)
+        	value = check_complex_float(field_value)
         else:
             raise TypeError(f"Datatype {field_type} is not supported.")
 
-        self._fields[field_name] = Field(field_name, value)
+        self._fields[field_name] = value
 
-    def change_field(self, old_field_name, new_field_name=None, 
-                    field_type=None, field_value=None):
+    def change_field(self, field_name, field_type, field_value):
         
-        if old_field_name not in self._fields.keys:
-            raise BaseException(f"No such field with name {old_field_name}")
+        if field_name not in self._fields.keys():
+            raise BaseException(f"No such field with name {field_name}")
 
-        if field_type is not None:
-            if field_type == 'int':
-                value = Int(field_value)
-            elif field_type == 'string':
-                value = String(field_value)
-            elif field_type == 'char':
-                value = Char(field_value)
-            elif field_type == 'real':
-                value = Real(field_value)
-            elif field_type == 'complexInt':
-                value = ComplexInt(field_value)
-            elif field_type == 'complexReal':
-                value = ComplexReal(field_value)
-            else:
-                raise TypeError(f"Datatype {field_type} is not supported.")
-            self._fields[old_field_name].set_value(value)
-
-        if new_field_name is not None:
-            if new_field_name in self._fields.keys:
-                raise BaseException(f"Field with name {new_field_name} already exist.")
-            else:
-                self._fields[new_field_name] = self._fields.pop(old_field_name)
-                self._fields[new_field_name].set_name(new_field_name)
+        if field_type == 'int':
+            value = check_int(field_value)
+        elif field_type == 'string':
+            value = check_string(field_value)
+        elif field_type == 'char':
+            value = check_char(field_value)
+        elif field_type == 'real':
+            value = check_float(field_value)
+        elif field_type == 'complexInt':
+            value = check_complex_int(field_value)
+        elif field_type == 'complexReal':
+            value = check_complex_float(field_value)
+        else:
+            raise TypeError(f"Datatype {field_type} is not supported.")
+        
+        self._fields[field_name] = value
 
     def delete_field(self, field_name):
-        if field_name not in self._fields.keys:
+        if field_name not in self._fields.keys():
             raise BaseException(f"No such field with name {field_name}")
         else:
             self._fields.pop(field_name)
 
+    def show(self):
+        for key in self._fields.keys():
+            print(f"{key} - {self._fields[key]}")
