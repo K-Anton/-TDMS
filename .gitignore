@@ -1,2 +1,4 @@
 test.py
 TDMS_env
+*.json
+__pycache__
