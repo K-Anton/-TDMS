@@ -2,3 +2,12 @@ test.py
 TDMS_env
 *.json
 __pycache__
+.idea
+
+/client-server/database_class.py
+/client-server/datatype_check.py
+/client-server/table_class.py
+
+/soap-rest/database_class.py
+/soap-rest/datatype_check.py
+/soap-rest/table_class.py
