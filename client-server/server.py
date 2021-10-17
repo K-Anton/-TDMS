@@ -1,12 +1,6 @@
 import socket
 from database_class import Database
 
-def db_action_choice():
-    pass
-
-def table_action_choice():
-    pass
-
 server = socket.socket(
     socket.AF_INET,
     socket.SOCK_STREAM
